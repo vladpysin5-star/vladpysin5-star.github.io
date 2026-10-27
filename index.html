@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Kotoba</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f9d8a"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#f2f6f5;--c:#fff;--tx:#15302b;--mu:#6a7e79;--ac:#0f9d8a;--a2:#dff4f0;--bd:#dce6e3;--ok:#1f9d55;--no:#d64545;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not(.light){--bg:#0f1917;--c:#172524;--tx:#e6f1ee;--mu:#8fa6a0;--a2:#12413c;--bd:#27403b;color-scheme:dark}}
+:root.dark{--bg:#0f1917;--c:#172524;--tx:#e6f1ee;--mu:#8fa6a0;--a2:#12413c;--bd:#27403b;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;padding-bottom:90px}
+main{max-width:640px;margin:0 auto;padding:8px 14px}header{display:flex;justify-content:space-between;max-width:640px;margin:0 auto;padding:10px 14px 0}
+h2{margin:8px 0}.card{background:var(--c);border:1px solid var(--bd);border-radius:18px;padding:16px;margin:10px 0}.center{text-align:center}.big{font-size:34px;font-weight:700;margin:8px 0}.mu{color:var(--mu);font-size:14px}
+button,select,input,textarea{font:inherit;color:var(--tx)}input,select,textarea{background:var(--c);border:1px solid var(--bd);border-radius:12px;padding:11px;width:100%;margin:4px 0}
+.btn,.btn2,.opt,.g{display:block;width:100%;border:0;border-radius:14px;padding:14px;margin:8px 0;font-weight:600;cursor:pointer}.btn{background:var(--ac);color:#fff}.btn2{background:var(--a2);color:var(--ac)}
+.opt{background:var(--c);border:1.5px solid var(--bd);text-align:left}.opt.ok{border-color:var(--ok);background:rgba(31,157,85,.15)}.opt.no{border-color:var(--no);background:rgba(214,69,69,.15);animation:sh .3s}.opt.sel{border-color:var(--ac)}.opt:disabled{opacity:1}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ic{background:var(--c);border:1px solid var(--bd);border-radius:12px;padding:8px 12px;cursor:pointer}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.row>.btn{flex:0 0 56px;margin:4px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tile{background:var(--c);border:1px solid var(--bd);border-radius:14px;padding:10px;text-align:center}.tile b{display:block;font-size:22px;color:var(--ac)}
+.grades{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.g{color:#fff;margin:0}.g small{display:block;font-weight:400;opacity:.9}.g0{background:#d64545}.g1{background:#e08a1e}.g2{background:#0f9d8a}.g3{background:#2f7de1}
+.item{display:flex;justify-content:space-between;gap:8px;background:var(--c);border:1px solid var(--bd);border-radius:14px;padding:12px;margin:6px 0;cursor:pointer}.item div{display:flex;flex-direction:column}
+.badge{font-size:12px;background:var(--a2);color:var(--ac);border-radius:9px;padding:2px 8px;align-self:center;white-space:nowrap}.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--ac)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--c);border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}nav button{flex:1;background:0;border:0;font-size:11px;color:var(--mu);padding:6px 0}nav button span{display:block;font-size:22px}nav .on{color:var(--ac);font-weight:700}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9;display:flex;align-items:flex-end;justify-content:center}.md{background:var(--bg);width:100%;max-width:640px;max-height:88%;overflow:auto;border-radius:22px 22px 0 0;padding:16px calc(16px) calc(16px + env(safe-area-inset-bottom,0px))}
+.fb{border-radius:14px;padding:12px;margin:8px 0}.fb.ok{background:rgba(31,157,85,.15)}.fb.no{background:rgba(214,69,69,.15)}.tok{display:inline-block;width:auto;margin:4px;padding:8px 12px}
+#t{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:#222;color:#fff;border-radius:12px;padding:10px 16px;opacity:0;transition:.3s;z-index:20;pointer-events:none;max-width:90%}
+rt{font-size:.5em;font-weight:400}.fo rt{display:none}.ft ruby:not(.sh) rt{visibility:hidden}ruby{cursor:pointer}.warn{background:#fdecc8;color:#5a3c00;border-radius:12px;padding:8px 12px;margin:8px 0;font-size:14px}.pairs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pairs .opt{margin:0}.pairs .opt.done{visibility:hidden}.bars{display:flex;gap:6px;align-items:flex-end;height:90px}.bars div{flex:1;text-align:center;font-size:11px;color:var(--mu)}.bars i{display:block;background:var(--ac);border-radius:5px 5px 0 0}
+</style></head><body><div id="app"></div><div id="t"></div>
+<script>
+const SEED={ja:`食べる|たべる|есть|глагол|毎日[まいにち]ご飯[はん]を食[た]べる。|Каждый день ем рис.|еда
+飲む|のむ|пить|глагол|水[みず]を飲[の]みます。|Я пью воду.|еда
+水|みず|вода|сущ.|水[みず]をください。|Воду, пожалуйста.|еда
+学校|がっこう|школа|сущ.|学校[がっこう]に行[い]きます。|Иду в школу.|учёба
+先生|せんせい|учитель|сущ.|先生[せんせい]は優[やさ]しいです。|Учитель добрый.|учёба
+本|ほん|книга|сущ.|本[ほん]を読[よ]む。|Читаю книгу.|учёба
+行く|いく|идти|глагол|駅[えき]へ行[い]く。|Иду на станцию.|путешествия
+駅|えき|станция|сущ.|駅[えき]はどこですか。|Где станция?|путешествия
+大きい|おおきい|большой|прил.|大[おお]きい犬[いぬ]です。|Это большая собака.|прилагательные
+小さい|ちいさい|маленький|прил.|小[ちい]さい猫[ねこ]がいる。|Есть маленькая кошка.|прилагательные
+友達|ともだち|друг|сущ.|友達[ともだち]と話[はな]す。|Говорю с другом.|общение
+見る|みる|смотреть|глагол|テレビを見[み]る。|Смотрю телевизор.|повседневное
+今日|きょう|сегодня|сущ.|今日[きょう]は暑[あつ]いです。|Сегодня жарко.|повседневное
+犬|いぬ|собака|сущ.|犬[いぬ]が好[す]きです。|Люблю собак.|повседневное
+ありがとう|ありがとう|спасибо|межд.|ありがとうございます。|Большое спасибо.|общение`,
+en:`hello|həˈləʊ|привет|межд.|Hello, how are you?|Привет, как дела?|общение
+water|ˈwɔːtər|вода|сущ.|Can I have some water?|Можно воды?|еда
+book|bʊk|книга|сущ.|I read a book every week.|Я читаю книгу каждую неделю.|учёба
+travel|ˈtrævəl|путешествовать|глагол|I love to travel.|Обожаю путешествовать.|путешествия
+ticket|ˈtɪkɪt|билет|сущ.|I need a train ticket.|Мне нужен билет на поезд.|путешествия
+breakfast|ˈbrekfəst|завтрак|сущ.|We eat breakfast at eight.|Мы завтракаем в восемь.|еда
+work|wɜːrk|работа|сущ.|My work starts at nine.|Моя работа начинается в девять.|работа
+doctor|ˈdɑːktər|врач|сущ.|I have to see a doctor.|Мне нужно к врачу.|медицина
+friend|frend|друг|сущ.|He is my best friend.|Он мой лучший друг.|общение
+study|ˈstʌdi|учиться|глагол|I study English every day.|Я учу английский каждый день.|учёба
+happy|ˈhæpi|счастливый|прил.|She looks happy today.|Сегодня она выглядит счастливой.|прилагательные
+expensive|ɪkˈspensɪv|дорогой|прил.|This hotel is too expensive.|Этот отель слишком дорогой.|прилагательные
+ask|æsk|спрашивать|глагол|Can I ask a question?|Можно задать вопрос?|глаголы
+buy|baɪ|покупать|глагол|I want to buy some bread.|Хочу купить хлеба.|глаголы
+weather|ˈweðər|погода|сущ.|The weather is nice today.|Сегодня хорошая погода.|повседневное`};
+const L={en:['English','🇬🇧'],ja:['日本語','🇯🇵']},GN={choice:'Найди перевод',match:'Соедини пары',listen:'Аудирование',build:'Собери предложение',write:'Напиши слово',recall:'Вспомни по подсказке'};
+const ST={new:'Новое',learning:'Учу',learned:'Выучено'};
+const def=()=>({lang:null,theme:'auto',furi:true,fmode:'always',rate:1,nw:10,rv:50,auto:false,voice:'',data:{en:null,ja:null},streak:0,last:'',lt:0});
+let S=def(),SOK=true,T='home',Q=null,G=null,M='',IMP=null,SP=0,SS=0;
+try{const x=JSON.parse(localStorage.getItem('kotoba')||'null');if(x)S=Object.assign(def(),x);localStorage.setItem('_t','1')}catch(e){SOK=false}
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const strip=s=>String(s).replace(/\[[^\]]*\]/g,''),rb=s=>esc(s).replace(/([\u4e00-\u9fff々]+)\[([^\]]+)\]/g,'<ruby>$1<rt>$2</rt></ruby>').replace(/\[[^\]]*\]/g,'');
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const td=(t=Date.now())=>{const d=new Date(t);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const D=()=>S.data[S.lang],W=()=>D().words,RV=w=>S.rev&&Q&&(Q.i+w.id.charCodeAt(0))%2==0,save=()=>{try{localStorage.setItem('kotoba',JSON.stringify(S));if(S.bk!=td()){S.bk=td();localStorage.setItem('kotoba_bak',JSON.stringify(S))}}catch(e){SOK=false}};
+const mk=o=>Object.assign({id:uid(),w:'',r:'',t:'',pos:'',ex:'',ext:'',tags:'',lvl:'',due:0,ivl:0,ease:2.5,reps:0,lapses:0,seen:0,ok:0,bad:0,hist:[]},o);
+const seed=l=>SEED[l].split('\n').map(x=>{const a=x.split('|');return mk({w:a[0],r:a[1],t:a[2],pos:a[3],ex:a[4],ext:a[5],tags:a[6],lvl:l=='ja'?'N5':'A1'})});
+const st=w=>!w.seen?'new':w.ivl>=21?'learned':'learning';
+const hasK=s=>/[\u4e00-\u9fff]/.test(s);
+const wh=w=>S.lang=='ja'&&w.r&&hasK(w.w)?`<ruby>${esc(w.w)}<rt>${esc(w.r)}</rt></ruby>`:esc(w.w);
+function toast(m){const e=$('#t');e.textContent=m;e.style.opacity=1;clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.opacity=0,2800)}
+function dayo(){const d=D();if(!d.day||d.day.d!=td())d.day={d:td(),n:0,r:0,ok:0,tot:0,sec:0};return d.day}
+/* SM-2 */
+function sched(w,g){let e=w.ease,r=w.reps,i=w.ivl,due;if(!g){r=0;i=0;e=Math.max(1.3,e-.2);due=Date.now()+6e5}else{r++;i=r==1?(g==3?3:1):r==2?(g==1?2:g==2?4:6):Math.max(i+1,Math.round(i*(g==1?1.2:g==2?e:e*1.3)));e=Math.max(1.3,e+(g==1?-.15:g==3?.15:0));due=Date.now()+i*864e5}return{ivl:i,ease:e,reps:r,due}}
+const lab=s=>s.ivl?s.ivl+' дн.':'10 мин';
+function rec(w,g){const dd=dayo(),first=!w.seen,n=Date.now();if(S.lt)dd.sec+=Math.min(30,(n-S.lt)/1000);S.lt=n;
+Object.assign(w,sched(w,g),{seen:1});w.hist.push({t:n,g});if(w.hist.length>30)w.hist.shift();
+if(g){w.ok++;dd.ok++}else{w.bad++;w.lapses++;if(w.lapses>=8&&!w.sus){w.sus=1;setTimeout(()=>toast('Слово «'+w.w+'» приостановлено: слишком часто забывается'),0)}}dd.tot++;first?dd.n++:dd.r++;
+const h=D().hist;h[td()]=(h[td()]||0)+1;if(S.last!=td()){S.streak=S.last==td(n-864e5)?S.streak+1:1;S.last=td()}save()}
+function gameRec(w,ok){if(!ok||!w.seen||w.due<=Date.now())rec(w,ok?2:0);else{w.ok++;const d=dayo();d.ok++;d.tot++;save()}}
+function queue(){const n=Date.now(),dd=dayo(),ws=W();return{rv:ws.filter(w=>!w.sus&&w.seen&&w.due<=n).sort((a,b)=>a.due-b.due).slice(0,Math.max(0,S.rv-dd.r)),nw:ws.filter(w=>!w.seen).slice(0,Math.max(0,S.nw-dd.n))}}
+const probs=()=>W().filter(w=>w.lapses>=2||(w.bad>=2&&w.bad>w.ok)).sort((a,b)=>b.lapses-a.lapses);
+/* Озвучка */
+function voices(){return 'speechSynthesis' in window?speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().startsWith(S.lang)):[]}
+function speak(t){if(!('speechSynthesis' in window)){toast('Браузер не поддерживает озвучку');return}const v=voices();if(!v.length){toast('Нет '+(S.lang=='ja'?'японского':'английского')+' голоса в этом браузере или на устройстве');return}
+const u=new SpeechSynthesisUtterance(strip(t));u.voice=v.find(x=>x.name==S.voice)||v[0];u.lang=u.voice.lang;u.rate=S.rate;speechSynthesis.cancel();speechSynthesis.speak(u)}
+const sw=w=>speak(S.lang=='ja'&&w.r?w.r:w.w);
+if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=()=>{if(T=='set')render()};
+/* Импорт */
+const KEYS={w:['w','word','слово'],r:['r','reading','чтение','ipa','транскрипция'],t:['t','translation','перевод'],pos:['pos','часть речи'],ex:['ex','example','пример'],ext:['ext','перевод примера'],tags:['tags','тема','теги'],lvl:['lvl','level','уровень']};
+function norm0(o){const r={};for(const k in KEYS){const f=Object.keys(o).find(x=>KEYS[k].includes(x.trim().toLowerCase()));r[k]=f?String(o[f]==null?'':o[f]).trim():''}return r}
+function parseCSV(t){const rows=[];let r=[],c='',q=0;const l=t.split('\n')[0],d=l.split(';').length>l.split(',').length?';':',';
+for(let i=0;i<t.length;i++){const h=t[i];if(q){if(h=='"'){if(t[i+1]=='"'){c+='"';i++}else q=0}else c+=h}else if(h=='"')q=1;else if(h==d){r.push(c);c=''}else if(h=='\n'||h=='\r'){if(h=='\r'&&t[i+1]=='\n')i++;r.push(c);c='';rows.push(r);r=[]}else c+=h}
+if(c||r.length){r.push(c);rows.push(r)}return rows.filter(r=>r.some(x=>x.trim()))}
+function parseImp(txt){let items=[];txt=txt.replace(/^\uFEFF/,'');
+if(/^\s*[\[{]/.test(txt)){const j=JSON.parse(txt);items=(Array.isArray(j)?j:j.words||[]).map(norm0)}
+else{const rows=parseCSV(txt),h=rows[0].map(x=>x.trim().toLowerCase()),isH=h.some(x=>KEYS.w.includes(x));const hd=isH?rows.shift():['w','r','t','pos','ex','ext','tags','lvl'];items=rows.map(r=>{const o={};hd.forEach((k,i)=>o[k]=r[i]);return norm0(o)})}
+const ok=[],err=[],ex=new Map(W().map(w=>[w.w.toLowerCase(),w]));let dup=0;
+items.forEach((x,i)=>{if(!x.w||!x.t)err.push('запись '+(i+1)+': нет слова или перевода');else{if(ex.has(x.w.toLowerCase()))dup++;ok.push(x)}});return{ok,err,dup,mode:'skip'}}
+function doImport(){const ex=new Map(W().map(w=>[w.w.toLowerCase(),w]));let a=0,u=0,s=0;
+IMP.ok.forEach(x=>{const d=ex.get(x.w.toLowerCase());if(d&&IMP.mode=='skip'){s++;return}if(d&&IMP.mode=='upd'){for(const k in x)if(x[k])d[k]=x[k];u++;return}W().push(mk(x));a++});save();toast(`Добавлено ${a}, обновлено ${u}, пропущено ${s}`);IMP=null;M=''}
+/* Представления */
+function chooser(){return `<main><h2 style="font-size:32px;margin-top:40px">Kotoba 🌿</h2><p class=mu>Выберите язык обучения. Прогресс каждого языка хранится отдельно.</p>${SOK?'':'<div class=warn>Хранилище браузера недоступно: прогресс не сохранится после закрытия. Делайте резервные копии.</div>'}${['en','ja'].map(l=>`<button class="btn2" style="font-size:20px;padding:22px" onclick="pick('${l}')">${L[l][1]} ${L[l][0]}${S.data[l]?`<small class=mu> · слов: ${S.data[l].words.length}</small>`:''}</button>`).join('')}</main>`}
+function pick(l){S.lang=l;if(!S.data[l])S.data[l]={words:seed(l),games:[],day:null,hist:{}};save();T='home';Q=G=null;render()}
+function home(){const ws=W(),q=queue(),dd=dayo(),lr=ws.filter(w=>st(w)=='learned').length,done=dd.n+dd.r,rem=q.rv.length+q.nw.length,pc=done+rem?Math.round(done/(done+rem)*100):0;
+const wi=ws.filter(w=>w.ex),sd=wi.length?wi[[...td()].reduce((a,c)=>a+c.charCodeAt(0),0)%wi.length]:null;
+return `<div class=grid>${[['Слов',ws.length,'all'],['Новых',ws.filter(w=>!w.seen).length,'new'],['Повторить',q.rv.length,'due'],['Выучено',lr,'learned'],['В процессе',ws.length-lr-ws.filter(w=>!w.seen).length,'learning'],['Серия 🔥',S.streak,'']].map(x=>`<div class=tile ${x[2]?`onclick="A('wl','${x[2]}')" style="cursor:pointer"`:''}><b>${x[1]}</b><span class=mu>${x[0]}</span></div>`).join('')}</div>
+<div class=card><b>Сегодня: ${done} из ${done+rem}</b><div class=bar><i style="width:${pc}%"></i></div><button class=btn onclick="A('study')">Начать обучение</button>
+<div class=row><button class=btn2 onclick="A('study','r')">Повторение (${q.rv.length})</button><button class=btn2 onclick="A('study','n')">Новые (${q.nw.length})</button></div></div>
+${sd?`<div class=card><span class=mu>Предложение дня</span><div style="font-size:20px;margin:6px 0">${rb(sd.ex)}</div><div class=mu>${esc(sd.ext)}</div><div class=row><button class=ic onclick="A('sayx','${sd.id}')">🔊</button><button class=ic onclick="A('tab','sent')">Тренировать предложения</button></div></div>`:''}
+<b>Быстрые игры</b><div class=row><button class=btn2 onclick="gstart('choice')">Перевод</button><button class=btn2 onclick="gstart('listen')">Аудирование</button><button class=btn2 onclick="gstart('write')">Писать</button></div>`}
+function sent(){const l=W().filter(w=>w.ex);if(!l.length)return '<p>Нет предложений. Добавьте слова с примерами.</p>';const w=l[SP%l.length];
+return `<h2>Предложения</h2><div class=card><div class=big style="font-size:26px">${rb(w.ex)}</div><button class=ic onclick="A('sayx','${w.id}')">🔊</button>${SS?`<p>${esc(w.ext)}</p>`:'<button class=btn2 onclick="A(\'sshow\')">Показать перевод</button>'}<p class=mu>Ключевое слово: <b>${wh(w)}</b> — ${esc(w.t)}${w.pos?' ('+esc(w.pos)+')':''}</p><p class=mu>Прослушайте и повторите вслух.</p></div><button class=btn onclick="A('snext')">Следующее предложение</button>`}
+function cards(){if(!Q){const q=queue();return `<h2>Карточки</h2><div class=card><p>Повторить: <b>${q.rv.length}</b> · Новые: <b>${q.nw.length}</b></p>${q.rv.length+q.nw.length?`<button class=btn onclick="A('study')">Начать</button>`:'<p class=mu>На сегодня всё. Можно взять ещё новые слова или изменить лимиты в настройках.</p>'}<button class=btn2 onclick="A('study','x')">Ещё 5 новых слов</button></div>`}
+if(Q.i>=Q.l.length)return `<div class="card center"><div class=big>Готово 🎉</div><p>Карточек пройдено: ${Q.n||0}</p><button class=btn onclick="A('tab','home')">На главную</button></div>`;
+const w=Q.l[Q.i];return `<div class=row><button class=ic style="flex:0 0 auto" onclick="A('tab','cards')">✕</button><div class=bar><i style="width:${Q.i/Q.l.length*100}%"></i></div></div><div class="card center">${RV(w)?'<div class=mu>Вспомните слово</div><div class=big style="font-size:28px">'+esc(w.t)+'</div>':'<div class=big>'+wh(w)+'</div><button class=ic onclick="A(\'say\',\''+w.id+'\')">🔊</button>'}
+${Q.s?`${RV(w)?'<div class=big>'+wh(w)+'</div><button class=ic onclick="A(\'say\',\''+w.id+'\')">🔊</button>':''}<p class=mu>${S.lang=='en'&&w.r?'/'+esc(w.r)+'/ · ':''}${esc(w.pos)}</p><div style="font-size:24px;font-weight:600">${esc(w.t)}</div>${w.ex?`<p style="font-size:18px">${rb(w.ex)} <button class=ic onclick="A('sayx','${w.id}')">🔊</button></p><p class=mu>${Q.t?esc(w.ext):'<button class=ic onclick="A(\'st\')">Показать перевод предложения</button>'}</p>`:''}`:`<p class=mu>Вспомните перевод</p>`}</div>
+${Q.s?`<div class=grades>${['Не помню','Трудно','Хорошо','Легко'].map((n,g)=>`<button class="g g${g}" onclick="A('grade',${g})">${n}<small>${lab(sched(w,g))}</small></button>`).join('')}</div>`:`<button class=btn onclick="A('show')">Показать ответ</button>`}`}
+function dict(){const ws=W(),tg=[...new Set(ws.flatMap(w=>w.tags.split(/[,;]/).map(x=>x.trim()).filter(Boolean)))],lv=[...new Set(ws.map(w=>w.lvl).filter(Boolean))];
+return `<div class=row><input id=q placeholder="Поиск слова или перевода" oninput="lst()"><button class=btn onclick="A('edit','')">＋</button></div><div class=row><select id=ft onchange="lst()"><option value="">Все темы</option>${tg.map(x=>`<option>${esc(x)}</option>`).join('')}</select><select id=fl onchange="lst()"><option value="">Все уровни</option>${lv.map(x=>`<option>${esc(x)}</option>`).join('')}</select><select id=fs onchange="lst()"><option value="">Любой статус</option>${Object.keys(ST).map(k=>`<option value=${k}>${ST[k]}</option>`).join('')}</select></div><button class=btn2 onclick="A('imp')">Импорт CSV / JSON</button><div id=lst>${lstH()}</div>`}
+const val=id=>($('#'+id)||{}).value||'';
+function lstH(){const q=val('q').toLowerCase(),t=val('ft'),l=val('fl'),s=val('fs');
+const r=W().filter(w=>(!q||(w.w+w.r+w.t).toLowerCase().includes(q))&&(!t||w.tags.split(/[,;]/).map(x=>x.trim()).includes(t))&&(!l||w.lvl==l)&&(!s||st(w)==s));
+if(!r.length)return `<p class=mu>Ничего не найдено. Добавьте слово или импортируйте набор.</p>`;
+return r.slice(0,200).map(w=>`<div class=item onclick="A('open','${w.id}')"><div><b>${wh(w)}</b><span class=mu>${esc(w.t)}</span></div><span class=badge>${ST[st(w)]}</span></div>`).join('')+(r.length>200?`<p class=mu>Показано 200 из ${r.length}. Уточните поиск.</p>`:'')}
+function lst(){$('#lst').innerHTML=lstH()}
+function games(){return `<h2>Игры</h2>${Object.keys(GN).map(k=>`<button class=opt onclick="gstart('${k}')">${GN[k]}</button>`).join('')}<p class=mu>Ответы в играх влияют на интервальное повторение. Минимум 4 слова в словаре.</p>`}
+const clz=w=>{if(!w.ex)return null;let s=strip(w.ex);if(S.lang=='en'){const re=new RegExp('\\b'+w.w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i');return re.test(s)?s.replace(re,'_____'):null}return s.includes(w.w)?s.replace(w.w,'＿＿＿'):null};
+function gstart(t){if(S.lang=='ja'&&t=='build')return toast('«Собери предложение» для японского пока недоступно');let p=shuf(W());
+if(t=='build')p=p.filter(w=>w.ex&&w.ex.split(' ').length>2);if(t=='recall')p=p.filter(clz);
+if(p.length<(t=='build'||t=='recall'?1:4))return toast('Мало подходящих слов: добавьте или импортируйте набор');
+const n=Date.now();p.sort((a,b)=>(b.seen&&b.due<=n?1:0)-(a.seen&&a.due<=n?1:0));
+if(t=='match'){const l=p.slice(0,6);G={t,l,i:0,ok:l.length,err:0,bad:{},sel:null,t0:n,cards:shuf([...l.map(w=>({id:w.id,k:'w'})),...l.map(w=>({id:w.id,k:'t'}))])}}
+else{G={t,l:p.slice(0,10),i:0,ok:0,err:0,fb:null};nq()}T='games';render()}
+function nq(){const g=G,w=g.l[g.i];if(!w)return;g.fb=null;g.ap=1;if(g.t=='choice'||g.t=='listen')g.opts=shuf([w,...shuf(W().filter(x=>x.id!=w.id&&x.t!=w.t&&x.w!=w.w)).slice(0,3)]);
+if(g.t=='build'){g.tok=shuf(bt(w.ex).map(t=>({t,u:0})));g.ans=[]}}
+const bt=s=>s.match(/[^\s.,!?;:]+|[.,!?;:]/g)||[],nm=s=>strip(s).toLowerCase().replace(/[\s　]+/g,' ').trim();
+const okw=(w,v)=>[...w.w.split('/'),...(S.lang=='ja'&&w.r?[w.r]:[])].some(x=>nm(x)==nm(v));
+function fin(ok){const g=G,w=g.l[g.i];g.fb={ok,pick:g.pick};gameRec(w,ok);ok?g.ok++:g.err++}
+function game(){const g=G;if(g.t=='match')return matchV();
+if(g.i>=g.l.length){if(!g.saved){g.saved=1;D().games.push({t:g.t,ok:g.ok,tot:g.ok+g.err,d:td()});if(D().games.length>60)D().games.shift();save()}return res()}
+const w=g.l[g.i],f=g.fb,last=g.i==g.l.length-1;let b='';
+const hd=`<div class=row><button class=ic style="flex:0 0 auto" onclick="A('gx')">✕</button><span class=mu>${GN[g.t]} · ${g.i+1}/${g.l.length}</span><span class=mu style="text-align:right">✔ ${g.ok} ✖ ${g.err}</span></div>`;
+const optH=(f2)=>g.opts.map(o=>`<button class="opt ${f?(o.id==w.id?'ok':f.pick==o.id?'no':''):''}" ${f?'disabled':''} onclick="A('pick','${o.id}')">${f2(o)}</button>`).join('');
+if(g.t=='choice')b=`<div class="card center"><div class=big>${wh(w)}</div><button class=ic onclick="A('say','${w.id}')">🔊</button></div>${optH(o=>esc(o.t))}`;
+if(g.t=='listen')b=`<div class="card center"><button class=btn style="font-size:30px" onclick="A('say','${w.id}')">🔊 Послушать</button><div class=row>${[.75,1,1.25].map(r=>`<button class="ic" style="${S.rate==r?'border-color:var(--ac)':''}" onclick="A('speed',${r})">${r}×</button>`).join('')}</div><p class=mu>Что вы услышали?</p></div>${optH(o=>wh(o))}`;
+if(g.t=='write'||g.t=='recall'){b=`<div class="card center">${g.t=='write'?`<div class=big style="font-size:28px">${esc(w.t)}</div><span class=mu>${esc(w.pos)}</span>`:`<div style="font-size:22px">${esc(clz(w))}</div><p class=mu>${esc(w.ext)}</p><p class=mu>Подсказка: ${esc(w.t)}</p>`}<input id=ans autocomplete=off autocapitalize=off ${f?'disabled':''} placeholder="${S.lang=='ja'?'Кана или кандзи':'Введите слово'}" onkeydown="if(event.key=='Enter')A('${f?'next':'chk'}')"></div>${f?'':'<button class=btn onclick="A(\'chk\')">Проверить</button>'}`}
+if(g.t=='build'){b=`<div class="card center"><p>${esc(w.ext)}</p><div style="min-height:50px">${g.ans.map((i,k)=>`<button class="opt tok sel" ${f?'disabled':''} onclick="A('tr',${k})">${esc(g.tok[i].t)}</button>`).join('')}</div></div><div>${g.tok.map((o,i)=>o.u?'':`<button class="opt tok" ${f?'disabled':''} onclick="A('tk',${i})">${esc(o.t)}</button>`).join('')}</div>${f?'':'<button class=btn onclick="A(\'chk\')">Проверить</button>'}`}
+if(f)b+=`<div class="fb ${f.ok?'ok':'no'}"><b>${f.ok?'✅ Верно!':'❌ Неверно'}</b><div style="font-size:20px">${wh(w)} — ${esc(w.t)} <button class=ic onclick="A('say','${w.id}')">🔊</button></div>${w.ex?`<div>${rb(w.ex)} <button class=ic onclick="A('sayx','${w.id}')">🔊</button></div><div class=mu>${esc(w.ext)}</div>`:''}</div><button class=btn onclick="A('next')">${last?'Итоги':'Следующее задание'}</button>`;
+return hd+b}
+function matchV(){const g=G;if(g.cards.every(c=>c.done)){if(!g.saved){g.saved=1;g.ok=g.l.length-Object.keys(g.bad).length;D().games.push({t:'match',ok:g.ok,tot:g.ok+g.err,d:td()});save()}return res(Math.round((Date.now()-g.t0)/1000)+' с')}
+return `<div class=row><button class=ic style="flex:0 0 auto" onclick="A('gx')">✕</button><span class=mu>Соедини пары · ошибок: ${g.err}</span></div><div class=pairs style="margin-top:10px">${g.cards.map((c,i)=>{const w=g.l.find(x=>x.id==c.id);return `<button class="opt ${c.done?'done':''} ${g.sel==i?'sel':''} ${g.fl&&g.fl.includes(i)?'no':''}" onclick="A('m',${i})">${c.k=='w'?wh(w):esc(w.t)}</button>`}).join('')}</div>`}
+function res(x){const g=G,tot=g.ok+g.err,p=tot?Math.round(g.ok/tot*100):0;return `<div class="card center"><div class=big>${p}%</div><p>Верно: ${g.ok} · Ошибок: ${g.err}${x?' · Время: '+x:''}</p><button class=btn onclick="gstart('${g.t}')">Ещё раз</button><button class=btn2 onclick="A('gx')">К списку игр</button></div>`}
+function prog(){const ws=W(),d=D(),h=d.hist,dd=dayo(),pr=probs(),lr=ws.filter(w=>st(w)=='learned').length,nw=ws.filter(w=>!w.seen).length;
+const ok=ws.reduce((a,w)=>a+w.ok,0),bad=ws.reduce((a,w)=>a+w.bad,0),days=[...Array(7)].map((_,i)=>{const t=Date.now()-(6-i)*864e5;return[new Date(t).toLocaleDateString('ru',{weekday:'short'}),h[td(t)]||0]}),mx=Math.max(1,...days.map(x=>x[1]));
+const tg={};ws.forEach(w=>w.tags.split(/[,;]/).map(x=>x.trim()).filter(Boolean).forEach(t=>{(tg[t]=tg[t]||[0,0])[0]++;if(st(w)=='learned')tg[t][1]++}));
+return `<h2>Прогресс</h2><div class=grid>${[['Добавлено',ws.length],['В процессе',ws.length-lr-nw],['Выучено',lr],['Сегодня',dd.n+dd.r],['Точность',(ok+bad?Math.round(ok/(ok+bad)*100):0)+'%'],['Время',Math.round(dd.sec/60)+' мин']].map(x=>`<div class=tile><b>${x[1]}</b><span class=mu>${x[0]}</span></div>`).join('')}</div>
+<div class=card><b>Серия: ${S.streak} 🔥 · Повторения по дням</b><div class=bars style="margin-top:8px">${days.map(x=>`<div><i style="height:${x[1]/mx*70}px"></i>${x[0]}<br>${x[1]}</div>`).join('')}</div></div>
+<div class=card><b>Наборы и темы</b>${Object.keys(tg).map(k=>`<div class=mu>${esc(k)}: ${tg[k][1]}/${tg[k][0]}</div><div class=bar><i style="width:${tg[k][1]/tg[k][0]*100}%"></i></div>`).join('')||'<p class=mu>Нет тем</p>'}<p class=mu>«Выучено» — интервал от 21 дня после нескольких верных ответов подряд.</p></div>
+<div class=card><b>Последние игры</b>${d.games.slice(-5).reverse().map(x=>`<div class=mu>${GN[x.t]}: ${x.ok}/${x.tot} (${x.d})</div>`).join('')||'<p class=mu>Пока нет</p>'}</div>
+<div class=card><b>Проблемные слова (${pr.length})</b>${pr.slice(0,8).map(w=>`<div class=item onclick="A('open','${w.id}')"><div><b>${wh(w)}</b><span class=mu>${esc(w.t)}</span></div><span class=badge>забыто ${w.lapses}</span></div>`).join('')}${pr.length?`<button class=btn onclick="A('study','p')">Тренировать</button>`:'<p class=mu>Пока таких нет</p>'}</div>${(sp=>sp.length?`<div class=card><b>Приостановлено (забыто 8+ раз): ${sp.length}</b>${sp.map(w=>`<div class=item><div><b>${wh(w)}</b><span class=mu>${esc(w.t)}</span></div><button class=ic onclick="A('unsus','${w.id}')">Вернуть</button></div>`).join('')}</div>`:'')(W().filter(w=>w.sus))}`}
+function sets(){const v=voices(),ja=S.lang=='ja',o=(a,b)=>a==b?'selected':'';
+return `<h2>Настройки</h2>${SOK?'':'<div class=warn>Хранилище недоступно: данные не сохраняются. Используйте резервную копию.</div>'}<div class=card>
+<label>Язык интерфейса<select disabled><option>Русский</option></select></label><label>Тема<select onchange="SET('theme',this.value)"><option value=auto ${o(S.theme,'auto')}>Как в системе</option><option value=light ${o(S.theme,'light')}>Светлая</option><option value=dark ${o(S.theme,'dark')}>Тёмная</option></select></label>
+${ja?`<label><input type=checkbox style="width:auto" ${S.furi?'checked':''} onchange="SET('furi',this.checked)"> Показывать чтение хираганой</label><label>Режим чтения<select onchange="SET('fmode',this.value)"><option value=always ${o(S.fmode,'always')}>Постоянно</option><option value=tap ${o(S.fmode,'tap')}>По нажатию на слово</option></select></label>`:''}
+<label>Скорость озвучки<select onchange="SET('rate',+this.value)">${[.75,1,1.25].map(r=>`<option value=${r} ${o(S.rate,r)}>${r}×</option>`).join('')}</select></label>
+<label>Голос<select onchange="SET('voice',this.value)">${v.length?v.map(x=>`<option ${o(S.voice,x.name)}>${esc(x.name)}</option>`).join(''):'<option>Голоса не найдены</option>'}</select></label>
+<label><input type=checkbox style="width:auto" ${S.auto?'checked':''} onchange="SET('auto',this.checked)"> Автовоспроизведение на карточках</label><br><label><input type=checkbox style="width:auto" ${S.rev?'checked':''} onchange="SET('rev',this.checked)"> Обратные карточки (перевод → слово)</label>
+<label>Новых слов в день<input type=number min=0 value=${S.nw} onchange="SET('nw',Math.max(0,+this.value))"></label><label>Лимит повторений в день<input type=number min=0 value=${S.rv} onchange="SET('rv',Math.max(0,+this.value))"></label></div>
+<button class=btn2 onclick="A('exp')">Экспорт словаря</button><button class=btn2 onclick="A('bak')">Резервная копия / восстановление</button><button class=btn2 onclick="A('imp')">Импорт набора</button><button class=btn2 style="color:var(--no)" onclick="A('rst')">Сбросить данные</button>`}
+function SET(k,v){S[k]=v;save();render()}
+const FIELDS=[['w','Слово'],['r','Чтение / транскрипция'],['t','Перевод'],['pos','Часть речи'],['ex','Пример'],['ext','Перевод примера'],['tags','Темы (через запятую)'],['lvl','Уровень (N5, A1…)']];
+function formH(id){const w=id?W().find(x=>x.id==id):{};return `<h3>${id?'Редактировать':'Новое слово'}</h3>${FIELDS.map(f=>`<label class=mu>${f[1]}<input id=f_${f[0]} value="${esc(w[f[0]]||'')}"></label>`).join('')}${S.lang=='ja'?'<p class=mu>Чтение в примере: 食[た]べる — в скобках после кандзи.</p>':''}<button class=btn onclick="A('save','${id}')">Сохранить</button><button class=btn2 onclick="A('close')">Отмена</button>`}
+function openH(id){const w=W().find(x=>x.id==id);if(!w)return '';return `<div class=center><div class=big>${wh(w)}</div>${S.lang=='en'&&w.r?`<div class=mu>/${esc(w.r)}/</div>`:''}<div style="font-size:22px">${esc(w.t)}</div><span class=mu>${esc(w.pos)} ${esc(w.lvl)} ${esc(w.tags)}</span></div><div class=row><button class=ic onclick="A('say','${w.id}')">🔊 Слово</button>${w.ex?`<button class=ic onclick="A('sayx','${w.id}')">🔊 Пример</button>`:''}</div>${w.ex?`<p style="font-size:18px">${rb(w.ex)}</p><p class=mu>${esc(w.ext)}</p>`:''}<p class=mu>${ST[st(w)]} · верно ${w.ok}, ошибок ${w.bad} · интервал ${w.ivl} дн.${w.seen?' · следующее: '+new Date(w.due).toLocaleDateString('ru'):''}</p><div class=row><button class=btn2 onclick="A('edit','${w.id}')">Изменить</button><button class=btn2 style="color:var(--no)" onclick="A('del','${w.id}')">Удалить</button></div><button class=btn onclick="A('close')">Закрыть</button>`}
+function impH(){if(!IMP)return `<h3>Импорт набора</h3><p class=mu>CSV или JSON. Столбцы: w, r, t, pos, ex, ext, tags, lvl (или слово, чтение, перевод…).</p><input type=file id=fi accept=".csv,.json,.txt" onchange="A('file')">`;
+const i=IMP;return `<h3>Предпросмотр</h3><p>Корректных: <b>${i.ok.length}</b> · Ошибок: <b>${i.err.length}</b> · Дубликатов: <b>${i.dup}</b></p>${i.err.slice(0,3).map(e=>`<div class=mu>⚠ ${esc(e)}</div>`).join('')}${i.ok.slice(0,5).map(x=>`<div class=mu>${esc(x.w)} — ${esc(x.t)}</div>`).join('')}<label><input type=radio name=md style="width:auto" ${i.mode=='skip'?'checked':''} onchange="IMP.mode='skip'"> Пропускать дубликаты</label><br><label><input type=radio name=md style="width:auto" onchange="IMP.mode='upd'"> Обновлять существующие</label><br><label><input type=radio name=md style="width:auto" onchange="IMP.mode='new'"> Импортировать всё как новые</label>${i.ok.length?`<button class=btn onclick="A('doimp')">Импортировать</button>`:''}<button class=btn2 onclick="A('close')">Отмена</button>`}
+function tbox(h,txt,extra){return `<h3>${h}</h3>${extra||''}<textarea id=tb rows=9>${esc(txt)}</textarea>`}
+const exCSV=()=>'w,r,t,pos,ex,ext,tags,lvl\n'+W().map(w=>['w','r','t','pos','ex','ext','tags','lvl'].map(k=>'"'+String(w[k]).replace(/"/g,'""')+'"').join(',')).join('\n');
+const exJSON=()=>JSON.stringify(W().map(w=>({w:w.w,r:w.r,t:w.t,pos:w.pos,ex:w.ex,ext:w.ext,tags:w.tags,lvl:w.lvl})),null,1);
+function A(a,x){const g=G;switch(a){
+case'tab':T=x;if(x!='cards')Q=null;G=null;M='';SP=0;SS=0;break;
+case'lang':S.lang=null;Q=G=null;break;case'close':M='';IMP=null;break;
+case'say':sw(W().find(w=>w.id==x));return;case'sayx':speak(W().find(w=>w.id==x).ex);return;
+case'speed':S.rate=x;save();break;
+case'study':{const q=queue();const l=x=='x'?W().filter(w=>!w.seen).slice(0,5):x=='p'?probs():x=='r'?q.rv:x=='n'?q.nw:[...q.rv,...q.nw];if(!l.length)return toast('Нет карточек для занятия');Q={l,i:0,s:0,n:0,ap:1};T='cards';break}
+case'show':Q.s=1;break;
+case'grade':{const w=Q.l[Q.i];rec(w,x);if(!x)Q.l.push(w);else Q.n++;Q.i++;Q.s=0;Q.t=0;Q.ap=1;break}
+case'pick':if(g.fb)return;g.pick=x;fin(x==g.l[g.i].id);break;
+case'chk':{const w=g.l[g.i];if(g.fb)return;if(g.t=='build'){if(g.ans.length<g.tok.length)return toast('Расставьте все слова');fin(g.ans.map(i=>g.tok[i].t).join(' ')==bt(w.ex).join(' '))}else{const v=val('ans');if(!v.trim())return;fin(okw(w,v))}break}
+case'tk':g.tok[x].u=1;g.ans.push(x);break;case'tr':g.tok[g.ans[x]].u=0;g.ans.splice(x,1);break;
+case'next':g.i++;nq();break;case'gx':G=null;break;
+case'm':{const c=g.cards[x];if(c.done||g.fl)return;if(g.sel==null||g.sel==x){g.sel=g.sel==x?null:x;break}const a=g.cards[g.sel];
+if(a.k==c.k){g.sel=x;break}if(a.id==c.id){a.done=c.done=1;g.sel=null;if(!g.bad[c.id])gameRec(g.l.find(w=>w.id==c.id),true)}
+else{g.err++;[a.id,c.id].forEach(id=>{if(!g.bad[id]){g.bad[id]=1;gameRec(g.l.find(w=>w.id==id),false)}});g.fl=[g.sel,x];g.sel=null;setTimeout(()=>{if(G==g){g.fl=null;render()}},500)}break}
+case'open':M=openH(x);break;case'edit':M=formH(x);break;
+case'save':{const o={};FIELDS.forEach(f=>o[f[0]]=val('f_'+f[0]).trim());if(!o.w||!o.t)return toast('Нужны слово и перевод');if(x)Object.assign(W().find(w=>w.id==x),o);else W().push(mk(o));M='';break}
+case'del':if(!confirm('Удалить слово?'))return;D().words=W().filter(w=>w.id!=x);M='';break;
+case'imp':IMP=null;M=impH();break;
+case'file':{const f=$('#fi').files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{IMP=parseImp(r.result);M=impH()}catch(e){IMP=null;M=impH();toast('Ошибка структуры файла: '+e.message)}render()};r.readAsText(f);return}
+case'doimp':doImport();break;
+case'exp':M=tbox('Экспорт словаря',exJSON(),`<div class=row><button class=btn2 onclick="$('#tb').value=exJSON()">JSON</button><button class=btn2 onclick="$('#tb').value=exCSV()">CSV</button></div>`)+`<button class=btn onclick="navigator.clipboard.writeText($('#tb').value).then(()=>toast('Скопировано'),()=>{$('#tb').select();toast('Выделено — скопируйте вручную')})">Копировать</button><button class=btn2 onclick="A('close')">Закрыть</button>`;break;
+case'bak':M=tbox('Резервная копия',JSON.stringify(S),'<p class=mu>Скопируйте текст и сохраните в файл. Для восстановления вставьте его сюда или выберите файл.</p><input type=file id=bf onchange="A(\'bfile\')">')+`<button class=btn onclick="navigator.clipboard.writeText($('#tb').value).then(()=>toast('Скопировано'),()=>toast('Скопируйте вручную'))">Копировать</button><button class=btn2 onclick="A('abak')">Показать авто-копию (раз в день)</button><button class=btn2 onclick="A('restore')">Восстановить из текста</button><button class=btn2 onclick="A('close')">Закрыть</button>`;break;
+case'bfile':{const f=$('#bf').files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('#tb').value=r.result};r.readAsText(f);return}
+case'restore':{try{const j=JSON.parse(val('tb'));if(!j.data)throw Error('нет данных');if(!confirm('Заменить все текущие данные копией?'))return;S=Object.assign(def(),j);M='';T='home'}catch(e){return toast('Некорректная копия: '+e.message)}break}
+case'rst':if(!confirm('Удалить ВСЕ данные и прогресс?'))return;S=def();T='home';Q=G=null;break;
+case'st':Q.t=1;break;case'wl':{const q=queue(),ws=W(),nn={all:'Все слова',new:'Новые слова',due:'Пора повторить',learned:'Выучено',learning:'В процессе'},r=x=='all'?ws:x=='due'?q.rv:ws.filter(w=>st(w)==x);M=`<h3>${nn[x]} (${r.length})</h3>${r.length?r.map(w=>`<div class=item onclick="A('open','${w.id}')"><div><b>${wh(w)}</b><span class=mu>${esc(w.t)}</span></div><span class=badge>${ST[st(w)]}</span></div>`).join(''):'<p class=mu>Здесь пока пусто</p>'}<button class=btn2 onclick="A('close')">Закрыть</button>`;break}case'unsus':{const w=W().find(w=>w.id==x);w.sus=0;w.lapses=0;break}case'abak':{let t=null;try{t=localStorage.getItem('kotoba_bak')}catch(e){}if(!t)return toast('Авто-копии пока нет');$('#tb').value=t;return}case'sshow':SS=1;break;case'snext':SP++;SS=0;break}
+save();render()}
+document.addEventListener('click',e=>{const r=e.target.closest&&e.target.closest('ruby');if(r)r.classList.toggle('sh')});
+function render(){const c=[];if(S.theme!='auto')c.push(S.theme);if(S.lang=='ja')c.push(S.furi?(S.fmode=='tap'?'ft':''):'fo');document.documentElement.className=c.join(' ').trim();
+if(!S.lang){$('#app').innerHTML=chooser();return}
+const tabs=[['home','🏠','Главная'],['cards','🃏','Карточки'],['dict','📚','Словарь'],['games','🎮','Игры'],['prog','📊','Прогресс']];
+let v=T=='home'?home():T=='cards'?cards():T=='dict'?dict():T=='games'?(G?game():games()):T=='prog'?prog():T=='sent'?sent():sets();
+$('#app').innerHTML=`<header><button class=ic onclick="A('lang')">${L[S.lang][1]} ${L[S.lang][0]} ▾</button><button class=ic onclick="A('tab','set')">⚙️</button></header><main>${SOK?'':'<div class=warn>Хранилище недоступно — прогресс может быть потерян. Делайте резервные копии.</div>'}${v}</main><nav>${tabs.map(t=>`<button class="${T==t[0]?'on':''}" onclick="A('tab','${t[0]}')"><span>${t[1]}</span>${t[2]}</button>`).join('')}</nav>${M?`<div class=ov onclick="if(event.target==this)A('close')"><div class=md>${M}</div></div>`:''}`;
+if(Q&&Q.s&&T=='cards')document.querySelectorAll('ruby').forEach(r=>r.classList.add('sh'));
+if(T=='cards'&&Q&&Q.ap&&Q.i<Q.l.length){Q.ap=0;if(S.auto)sw(Q.l[Q.i])}
+if(G&&G.t=='listen'&&G.ap&&G.i<G.l.length){G.ap=0;sw(G.l[G.i])}}
+render();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script></body></html>
